@@ -177,18 +177,12 @@
             align-items: center;
         }
 
-        .strand-top { top: 0; left: 0; width: 100%; height: 14px; flex-direction: row; }
-        .strand-bottom { bottom: 0; left: 0; width: 100%; height: 14px; flex-direction: row; }
+        .strand-top { top: 0; left: 0; width: 100%; height: 20px; flex-direction: row; }
+        .strand-bottom { bottom: 0; left: 0; width: 100%; height: 20px; flex-direction: row; }
         .strand-left { top: 0; left: 0; width: 20px; height: 100%; flex-direction: column; }
         .strand-right { top: 0; right: 0; width: 20px; height: 100%; flex-direction: column; }
 
-        /* Reducción específica para luces superiores e inferiores (30% menos) */
-        .strand-top .light, .strand-bottom .light {
-            width: 8px;
-            height: 8px;
-            box-shadow: 0 0 3px #fff;
-        }
-
+        /* Restauramos el tamaño original, ya que solo querías menos cantidad */
         .light {
             width: 12px;
             height: 12px;
@@ -241,7 +235,7 @@
         .walking-penguin {
             position: fixed;
             bottom: 0px;
-            right: -100px;
+            left: -100px;
             width: 100px;
             z-index: 90;
             animation: walkAcross 30s linear infinite;
@@ -251,11 +245,8 @@
         }
 
         @keyframes walkAcross {
-            0% { right: -100px; transform: scaleX(1); }
-            45% { right: 45%; transform: scaleX(1); }
-            50% { right: 50%; transform: scaleX(-1); } /* Se da la vuelta */
-            55% { right: 45%; transform: scaleX(-1); }
-            100% { right: 110%; transform: scaleX(-1); }
+            0% { left: -100px; transform: scaleX(-1); } /* Mira a la derecha */
+            100% { left: 110%; transform: scaleX(-1); }
         }
 
         footer {
@@ -392,6 +383,9 @@
         // Intentar al cargar
         window.addEventListener('load', attemptPlay);
         
+        // Intentar 1 segundo después de cargar (por si el navegador se demora en decidir)
+        setTimeout(attemptPlay, 1000);
+
         // Intentar en cualquier interacción (clic, toque, scroll) para forzar el inicio
         ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => {
             document.addEventListener(event, attemptPlay);
@@ -400,8 +394,8 @@
         // Generar Luces Navideñas
         function createLights() {
             const strands = [
-                { id: 'lights-top', count: 40 },
-                { id: 'lights-bottom', count: 40 },
+                { id: 'lights-top', count: 20 },    // Reducido de 40 a 20 (50% menos cantidad)
+                { id: 'lights-bottom', count: 20 }, // Reducido de 40 a 20 (50% menos cantidad)
                 { id: 'lights-left', count: 20 },
                 { id: 'lights-right', count: 20 }
             ];
