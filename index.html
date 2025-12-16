@@ -259,6 +259,28 @@
             color: rgba(255,255,255,0.6);
         }
 
+        /* Ajustes para Celulares */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem; /* Reducido drásticamente */
+                margin-top: 10px;
+            }
+            .subtitle {
+                font-size: 0.8rem;
+                margin-bottom: 20px;
+            }
+            .invitation-text {
+                font-size: 1rem;
+            }
+            .invitation-card {
+                padding: 15px;
+                margin: 10px auto;
+            }
+            .video-container {
+                border-width: 2px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -329,12 +351,29 @@
         🎵
     </button>
     <!-- Música de fondo (Ejemplo libre de derechos) -->
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" autoplay loop>
         <source src="media/musicnavidad.mp3" type="audio/mp3">
     </audio>
 
     <!-- Scripts -->
     <script>
+        // Intentar reproducir música automáticamente al cargar
+        window.addEventListener('load', function() {
+            var audio = document.getElementById('bgMusic');
+            var playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Reproducción automática iniciada
+                    document.querySelector('.music-control').innerHTML = '❚❚';
+                })
+                .catch(error => {
+                    // Reproducción automática bloqueada por el navegador
+                    console.log("Autoplay bloqueado por el navegador. Se requiere interacción del usuario.");
+                });
+            }
+        });
+
         // Generar Luces Navideñas
         function createLights() {
             const strands = [
