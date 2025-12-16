@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Chocolatada de la Doctora Avalos</title>
+    
+    <!-- Fuentes Navideñas y Futuristas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --christmas-green: #0f3b1e;
+            --christmas-red: #d42426;
+            --snow-white: #ffffff;
+            --gold: #ffd700;
+            --neon-glow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px #d42426, 0 0 40px #d42426;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--christmas-green);
+            color: var(--snow-white);
+            font-family: 'Mountains of Christmas', cursive;
+            overflow-x: hidden;
+        }
+
+        /* Efecto de Nieve */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial;
+            text-shadow: 0 0 1px #000;
+            z-index: 9999;
+            animation-name: snowflakes-fall, snowflakes-shake;
+            animation-duration: 10s, 3s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+            pointer-events: none;
+        }
+
+        @keyframes snowflakes-fall {
+            0% { top: -10% }
+            100% { top: 100% }
+        }
+
+        @keyframes snowflakes-shake {
+            0% { transform: translateX(0px) }
+            50% { transform: translateX(80px) }
+            100% { transform: translateX(0px) }
+        }
+
+        /* Contenedor Principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Sección del Video */
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            border: 4px solid var(--christmas-red);
+            border-radius: 15px;
+            box-shadow: 0 0 20px var(--christmas-red);
+            overflow: hidden;
+            background: #000;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Títulos y Textos */
+        h1 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 3.5rem;
+            color: var(--snow-white);
+            text-shadow: var(--neon-glow);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-family: 'Orbitron', sans-serif; /* Toque futurista */
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .invitation-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--christmas-red);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 800px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .invitation-text {
+            font-size: 1.8rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .highlight {
+            color: var(--christmas-red);
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #fff;
+        }
+
+        /* Mapa */
+        #map {
+            height: 450px;
+            width: 100%;
+            border-radius: 15px;
+            border: 3px solid var(--gold);
+            margin-top: 20px;
+        }
+
+        /* Botón de Música */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--christmas-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--gold);
+            z-index: 100;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        /* Luces de Navidad (Marco Completo) */
+        .lights-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        .light-strand {
+            position: absolute;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .strand-top { top: 0; left: 0; width: 100%; height: 20px; flex-direction: row; }
+        .strand-bottom { bottom: 0; left: 0; width: 100%; height: 20px; flex-direction: row; }
+        .strand-left { top: 0; left: 0; width: 20px; height: 100%; flex-direction: column; }
+        .strand-right { top: 0; right: 0; width: 20px; height: 100%; flex-direction: column; }
+
+        .light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 5px #fff;
+            animation-duration: 1.5s;
+            animation-iteration-count: infinite;
+        }
+
+        .light:nth-child(3n+1) { animation-name: flash-1; animation-delay: 0s; }
+        .light:nth-child(3n+2) { animation-name: flash-2; animation-delay: 0.5s; }
+        .light:nth-child(3n+3) { animation-name: flash-3; animation-delay: 1s; }
+
+        @keyframes flash-1 {
+            0%, 100% { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
+            50% { background: rgba(255,0,0,0.3); box-shadow: 0 0 2px rgba(255,0,0,0.2); }
+        }
+        @keyframes flash-2 {
+            0%, 100% { background: #00ff00; box-shadow: 0 0 15px #00ff00; }
+            50% { background: rgba(0,255,0,0.3); box-shadow: 0 0 2px rgba(0,255,0,0.2); }
+        }
+        @keyframes flash-3 {
+            0%, 100% { background: #ffff00; box-shadow: 0 0 15px #ffff00; }
+            50% { background: rgba(255,255,0,0.3); box-shadow: 0 0 2px rgba(255,255,0,0.2); }
+        }
+
+        /* Animación de Renos Volando */
+        .flying-santa {
+            position: fixed;
+            top: 50px;
+            left: -300px;
+            width: 250px;
+            z-index: 50;
+            opacity: 0.9;
+            animation: flyAcross 25s linear infinite;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+        }
+
+        @keyframes flyAcross {
+            0% { left: -300px; top: 50px; transform: rotate(5deg); }
+            25% { top: 80px; }
+            50% { top: 40px; }
+            75% { top: 90px; }
+            100% { left: 110%; top: 60px; transform: rotate(-5deg); }
+        }
+
+        /* Animación de Pingüino Caminando */
+        .walking-penguin {
+            position: fixed;
+            bottom: 0px;
+            right: -100px;
+            width: 100px;
+            z-index: 90;
+            animation: walkAcross 30s linear infinite;
+            animation-delay: 5s;
+            pointer-events: none;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+        }
+
+        @keyframes walkAcross {
+            0% { right: -100px; transform: scaleX(1); }
+            45% { right: 45%; transform: scaleX(1); }
+            50% { right: 50%; transform: scaleX(-1); } /* Se da la vuelta */
+            55% { right: 45%; transform: scaleX(-1); }
+            100% { right: 110%; transform: scaleX(-1); }
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Luces Navideñas (Marco) -->
+    <div class="lights-container">
+        <div class="light-strand strand-top" id="lights-top"></div>
+        <div class="light-strand strand-bottom" id="lights-bottom"></div>
+        <div class="light-strand strand-left" id="lights-left"></div>
+        <div class="light-strand strand-right" id="lights-right"></div>
+    </div>
+
+    <!-- Animaciones Extras -->
+    <img src="media/renos.gif" class="flying-santa" alt="Santa Volando">
+    <img src="media/pinguino.gif" class="walking-penguin" alt="Pingüino Caminando">
+
+    <!-- Copos de Nieve (Generados por JS o estáticos) -->
+    <div class="snowflakes" aria-hidden="true">
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+    </div>
+
+    <div class="container">
+        
+        <h1>🐻‍❄️🎄✨LA CHOCOLATADA DE LA DOCTORA AVALOS✨🎄🐻‍❄️</h1>
+
+        <!-- Video Principal -->
+        <div class="video-container">
+            <video autoplay loop muted playsinline controls>
+                <source src="media/videoofi.mp4" type="video/mp4">
+                Tu navegador no soporta videos HTML5.
+            </video>
+        </div>
+
+        <!-- Tarjeta de Invitación -->
+        <div class="invitation-card">
+            <p class="invitation-text">
+                ¡Ho Ho Ho! 🎅<br>
+                Estás cordialmente invitado a la reunión más esperada del año.<br>
+                Ven a disfrutar de una deliciosa <span class="highlight">Chocolatada y Panetón</span> en una tarde llena de magia, regalos y alegría.
+            </p>
+            
+            <p class="invitation-text">
+                📍 <strong>Lugar:</strong> Av Cnel. Mendoza 1954, Tacna<br>
+                🎄 <strong>Referencia:</strong> ¡Sigue la estrella del norte (o el mapa de abajo)!
+            </p>
+
+            <!-- Mapa de Google -->
+            <div id="map"></div>
+        </div>
+
+    </div>
+
+    <footer>
+        Desarrollado con espíritu navideño &copy; 2025
+    </footer>
+
+    <!-- Control de Música -->
+    <button class="music-control" onclick="toggleMusic()" title="Reproducir Música Navideña">
+        🎵
+    </button>
+    <!-- Música de fondo (Ejemplo libre de derechos) -->
+    <audio id="bgMusic" loop>
+        <source src="media/musicnavidad.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Scripts -->
+    <script>
+        // Generar Luces Navideñas
+        function createLights() {
+            const strands = [
+                { id: 'lights-top', count: 40 },
+                { id: 'lights-bottom', count: 40 },
+                { id: 'lights-left', count: 20 },
+                { id: 'lights-right', count: 20 }
+            ];
+
+            strands.forEach(strand => {
+                const container = document.getElementById(strand.id);
+                for (let i = 0; i < strand.count; i++) {
+                    const light = document.createElement('div');
+                    light.className = 'light';
+                    container.appendChild(light);
+                }
+            });
+        }
+        createLights();
+
+        // Configuración del Mapa
+        function initMap() {
+            const location = { lat: -17.999498, lng: -70.237666 };
+            
+            // Estilo del mapa (Modo Oscuro/Futurista)
+            const mapStyles = [
+                { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+                { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+                { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+                {
+                    featureType: "administrative.locality",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#d59563" }],
+                },
+                {
+                    featureType: "poi",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#d59563" }],
+                },
+                {
+                    featureType: "poi.park",
+                    elementType: "geometry",
+                    stylers: [{ color: "#263c3f" }],
+                },
+                {
+                    featureType: "poi.park",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#6b9a76" }],
+                },
+                {
+                    featureType: "road",
+                    elementType: "geometry",
+                    stylers: [{ color: "#38414e" }],
+                },
+                {
+                    featureType: "road",
+                    elementType: "geometry.stroke",
+                    stylers: [{ color: "#212a37" }],
+                },
+                {
+                    featureType: "road",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#9ca5b3" }],
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "geometry",
+                    stylers: [{ color: "#746855" }],
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "geometry.stroke",
+                    stylers: [{ color: "#1f2835" }],
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#f3d19c" }],
+                },
+                {
+                    featureType: "water",
+                    elementType: "geometry",
+                    stylers: [{ color: "#17263c" }],
+                },
+                {
+                    featureType: "water",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#515c6d" }],
+                },
+                {
+                    featureType: "water",
+                    elementType: "labels.text.stroke",
+                    stylers: [{ color: "#17263c" }],
+                },
+            ];
+
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 17,
+                center: location,
+                styles: mapStyles,
+                disableDefaultUI: false,
+            });
+
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: "La Chocolatada de la Doctora Avalos",
+                animation: google.maps.Animation.BOUNCE
+            });
+        }
+
+        // Control de Música
+        function toggleMusic() {
+            const audio = document.getElementById('bgMusic');
+            const btn = document.querySelector('.music-control');
+            
+            if (audio.paused) {
+                audio.play();
+                btn.innerHTML = '❚❚'; // Icono de pausa
+            } else {
+                audio.pause();
+                btn.innerHTML = '🎵'; // Icono de música
+            }
+        }
+
+        // Generar más nieve dinámicamente
+        function createSnow() {
+            const container = document.querySelector('.snowflakes');
+            for(let i = 0; i < 10; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerHTML = Math.random() > 0.5 ? '❅' : '❆';
+                flake.style.left = Math.random() * 100 + '%';
+                flake.style.animationDuration = (Math.random() * 5 + 5) + 's, ' + (Math.random() * 2 + 2) + 's';
+                flake.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(flake);
+            }
+        }
+        
+        // Iniciar nieve extra
+        createSnow();
+
+    </script>
+
+    <!-- API de Google Maps -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfvWuToOTYf6hIr2ERfTNi-H_MazQUNuQ&callback=initMap&v=weekly"
+        async
+    ></script>
+</body>
+</html>
