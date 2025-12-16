@@ -279,9 +279,68 @@
             }
         }
 
+        /* Overlay de Bienvenida (Solución Definitiva Música) */
+        #welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 59, 30, 0.98); /* Verde navideño casi sólido */
+            z-index: 10000; /* Por encima de todo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .welcome-content {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        #enter-btn {
+            background: #d42426;
+            color: white;
+            border: 3px solid #ffd700;
+            padding: 15px 40px;
+            font-size: 2rem;
+            font-family: 'Mountains of Christmas', cursive;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 0 30px #d42426;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        #enter-btn:hover {
+            transform: scale(1.1);
+            background: #b31b1d;
+            box-shadow: 0 0 50px #ffd700;
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- Pantalla de Bienvenida (Overlay) -->
+    <div id="welcome-overlay">
+        <div class="welcome-content">
+            <h1 style="font-size: 3rem; margin-bottom: 10px;">🎅 ¡Tienes una Invitación! 🎁</h1>
+            <p style="font-size: 1.5rem;">La Doctora Avalos te invita a una experiencia mágica.</p>
+            <button id="enter-btn">Abrir Invitación ✨</button>
+        </div>
+    </div>
 
     <!-- Luces Navideñas (Marco) -->
     <div class="lights-container">
@@ -361,34 +420,24 @@
 
     <!-- Scripts -->
     <script>
-        // Lógica robusta para reproducir música automáticamente
-        function attemptPlay() {
-            var audio = document.getElementById('bgMusic');
-            if (!audio.paused) return; // Ya está sonando
+        // Lógica del Overlay de Bienvenida
+        const overlay = document.getElementById('welcome-overlay');
+        const enterBtn = document.getElementById('enter-btn');
+        const audio = document.getElementById('bgMusic');
 
-            var playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    document.querySelector('.music-control').innerHTML = '❚❚';
-                    // Si logramos reproducir, quitamos los listeners de interacción
-                    ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => {
-                        document.removeEventListener(event, attemptPlay);
-                    });
-                }).catch(error => {
-                    console.log("Autoplay esperando interacción del usuario.");
-                });
-            }
-        }
-
-        // Intentar al cargar
-        window.addEventListener('load', attemptPlay);
-        
-        // Intentar 1 segundo después de cargar (por si el navegador se demora en decidir)
-        setTimeout(attemptPlay, 1000);
-
-        // Intentar en cualquier interacción (clic, toque, scroll) para forzar el inicio
-        ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => {
-            document.addEventListener(event, attemptPlay);
+        enterBtn.addEventListener('click', () => {
+            // 1. Desvanecer el overlay
+            overlay.style.opacity = '0';
+            
+            // 2. Eliminarlo del DOM después de la animación
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 800);
+            
+            // 3. Iniciar música (GARANTIZADO por el clic)
+            audio.play().then(() => {
+                document.querySelector('.music-control').innerHTML = '❚❚';
+            }).catch(e => console.log("Error audio:", e));
         });
 
         // Generar Luces Navideñas
