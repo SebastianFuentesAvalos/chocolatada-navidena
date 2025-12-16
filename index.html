@@ -210,27 +210,6 @@
             50% { background: rgba(255,255,0,0.3); box-shadow: 0 0 2px rgba(255,255,0,0.2); }
         }
 
-        /* Animación de Renos Volando */
-        .flying-santa {
-            position: fixed;
-            top: 50px;
-            left: -300px;
-            width: 250px;
-            z-index: 50;
-            opacity: 0.9;
-            animation: flyAcross 25s linear infinite;
-            pointer-events: none;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
-        }
-
-        @keyframes flyAcross {
-            0% { left: -300px; top: 50px; transform: rotate(5deg); }
-            25% { top: 80px; }
-            50% { top: 40px; }
-            75% { top: 90px; }
-            100% { left: 110%; top: 60px; transform: rotate(-5deg); }
-        }
-
         /* Animación de Pingüino Caminando */
         .walking-penguin {
             position: fixed;
@@ -351,7 +330,6 @@
     </div>
 
     <!-- Animaciones Extras -->
-    <img src="media/renos.gif" class="flying-santa" alt="Santa Volando">
     <img src="media/pinguino.gif" class="walking-penguin" alt="Pingüino Caminando">
 
     <!-- Copos de Nieve (Generados por JS o estáticos) -->
@@ -396,6 +374,7 @@
             
             <p class="invitation-text">
                 📍 <strong>Lugar:</strong> Av Cnel. Mendoza 1954, Tacna<br>
+                📅 <strong>Fecha:</strong> 19 de diciembre, 9:45 PM<br>
                 🎄 <strong>Referencia:</strong> ¡Sigue la estrella del norte (o el mapa de abajo)!
             </p>
 
