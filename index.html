@@ -177,10 +177,17 @@
             align-items: center;
         }
 
-        .strand-top { top: 0; left: 0; width: 100%; height: 20px; flex-direction: row; }
-        .strand-bottom { bottom: 0; left: 0; width: 100%; height: 20px; flex-direction: row; }
+        .strand-top { top: 0; left: 0; width: 100%; height: 14px; flex-direction: row; }
+        .strand-bottom { bottom: 0; left: 0; width: 100%; height: 14px; flex-direction: row; }
         .strand-left { top: 0; left: 0; width: 20px; height: 100%; flex-direction: column; }
         .strand-right { top: 0; right: 0; width: 20px; height: 100%; flex-direction: column; }
+
+        /* Reducción específica para luces superiores e inferiores (30% menos) */
+        .strand-top .light, .strand-bottom .light {
+            width: 8px;
+            height: 8px;
+            box-shadow: 0 0 3px #fff;
+        }
 
         .light {
             width: 12px;
@@ -313,7 +320,7 @@
 
     <div class="container">
         
-        <h1>🐻‍❄️🎄✨LA CHOCOLATADA DE LA DOCTORA AVALOS✨🎄🐻‍❄️</h1>
+        <h1>🎄✨LA CHOCOLATADA DE LA DOCTORA AVALOS✨🎄</h1>
 
         <!-- Video Principal -->
         <div class="video-container">
@@ -328,7 +335,13 @@
             <p class="invitation-text">
                 ¡Ho Ho Ho! 🎅<br>
                 Estás cordialmente invitado a la reunión más esperada del año.<br>
-                Ven a disfrutar de una deliciosa <span class="highlight">Chocolatada y Panetón</span> en una tarde llena de magia, regalos y alegría.
+                Ven a disfrutar de una deliciosa <span class="highlight">Chocolatada y Panetón</span> en una tarde llena de magia, comida y alegría.
+            </p>
+
+            <p class="invitation-text">
+                Chocolateras:<br>
+                - <span class="highlight">Doña Gabriela Gutierrez</span>
+                - <span class="highlight">Doña Solansh Fuentes</span>
             </p>
             
             <p class="invitation-text">
@@ -357,21 +370,31 @@
 
     <!-- Scripts -->
     <script>
-        // Intentar reproducir música automáticamente al cargar
-        window.addEventListener('load', function() {
+        // Lógica robusta para reproducir música automáticamente
+        function attemptPlay() {
             var audio = document.getElementById('bgMusic');
-            var playPromise = audio.play();
+            if (!audio.paused) return; // Ya está sonando
 
+            var playPromise = audio.play();
             if (playPromise !== undefined) {
                 playPromise.then(_ => {
-                    // Reproducción automática iniciada
                     document.querySelector('.music-control').innerHTML = '❚❚';
-                })
-                .catch(error => {
-                    // Reproducción automática bloqueada por el navegador
-                    console.log("Autoplay bloqueado por el navegador. Se requiere interacción del usuario.");
+                    // Si logramos reproducir, quitamos los listeners de interacción
+                    ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => {
+                        document.removeEventListener(event, attemptPlay);
+                    });
+                }).catch(error => {
+                    console.log("Autoplay esperando interacción del usuario.");
                 });
             }
+        }
+
+        // Intentar al cargar
+        window.addEventListener('load', attemptPlay);
+        
+        // Intentar en cualquier interacción (clic, toque, scroll) para forzar el inicio
+        ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => {
+            document.addEventListener(event, attemptPlay);
         });
 
         // Generar Luces Navideñas
