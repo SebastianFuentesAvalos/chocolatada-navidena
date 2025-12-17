@@ -308,6 +308,62 @@
             box-shadow: 0 0 50px #ffd700;
         }
 
+        /* Estilos para botones de referencia y modal */
+        .location-item {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid var(--gold);
+        }
+        
+        .ref-btn {
+            background: var(--christmas-green);
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .ref-btn:hover {
+            background: var(--gold);
+            color: var(--christmas-green);
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        /* Modal de Imagen */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 10001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border: 4px solid var(--gold);
+            border-radius: 10px;
+            box-shadow: 0 0 30px var(--christmas-red);
+            animation: zoomIn 0.3s;
+        }
+
+        @keyframes zoomIn {
+            from {transform:scale(0)} 
+            to {transform:scale(1)}
+        }
+
     </style>
 </head>
 <body>
@@ -373,8 +429,25 @@
                 - <span class="highlight">Doña Solansh Fuentes</span>
             </p>
             
+            <div class="locations-container">
+                <div class="location-item">
+                    <p class="invitation-text" style="margin-bottom: 10px;">
+                        📍 <strong>Farmacia Maria de los Angeles</strong><br>
+                        <span style="font-size: 1rem;">Intersección entre Francisco Paula Vigil y Gustavo Pinto</span>
+                    </p>
+                    <button class="ref-btn" onclick="showReference('media/referencefarmacia.png')">📸 Ver Referencia</button>
+                </div>
+
+                <div class="location-item">
+                    <p class="invitation-text" style="margin-bottom: 10px;">
+                        📍 <strong>Botica Santa Maria</strong><br>
+                        <span style="font-size: 1rem;">Av. Coronel Mendoza 1954</span>
+                    </p>
+                    <button class="ref-btn" onclick="showReference('media/referencebotica.png')">📸 Ver Referencia</button>
+                </div>
+            </div>
+
             <p class="invitation-text">
-                📍 <strong>Lugar:</strong> Farmacia Maria de los Angeles, intersección entre Francisco Paula Vigil y Gustavo Pinto, Tacna<br>
                 📅 <strong>Fecha:</strong> 19 de diciembre, 9:00 PM<br>
                 🎄 <strong>Referencia:</strong> ¡Sigue la estrella del norte (o el mapa de abajo)!
             </p>
@@ -398,8 +471,21 @@
         <source src="media/musicnavidad.mp3" type="audio/mp3">
     </audio>
 
+    <!-- Modal de Referencia -->
+    <div id="image-modal" class="image-modal" onclick="this.style.display='none'">
+        <img class="modal-content" id="ref-img">
+    </div>
+
     <!-- Scripts -->
     <script>
+        // Función para mostrar referencia
+        function showReference(src) {
+            const modal = document.getElementById('image-modal');
+            const img = document.getElementById('ref-img');
+            img.src = src;
+            modal.style.display = "flex";
+        }
+
         // Lógica del Overlay de Bienvenida
         const overlay = document.getElementById('welcome-overlay');
         const enterBtn = document.getElementById('enter-btn');
@@ -442,7 +528,10 @@
 
         // Configuración del Mapa
         function initMap() {
-            const location = { lat: -18.002860, lng: -70.243536 };
+            const locations = [
+                { title: "Farmacia Maria de los Angeles", lat: -18.002860, lng: -70.243536 },
+                { title: "Botica Santa Maria", lat: -17.999611, lng: -70.237722 }
+            ];
             
             // Estilo del mapa (Modo Oscuro/Futurista)
             const mapStyles = [
@@ -517,18 +606,27 @@
             ];
 
             const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 17,
-                center: location,
+                zoom: 15,
+                center: { lat: -18.0012, lng: -70.2406 }, // Centro aproximado entre los dos puntos
                 styles: mapStyles,
                 disableDefaultUI: false,
             });
 
-            const marker = new google.maps.Marker({
-                position: location,
-                map: map,
-                title: "La Chocolatada de la Doctora Avalos",
-                animation: google.maps.Animation.BOUNCE
+            const bounds = new google.maps.LatLngBounds();
+
+            locations.forEach(loc => {
+                const position = { lat: loc.lat, lng: loc.lng };
+                new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: loc.title,
+                    animation: google.maps.Animation.DROP
+                });
+                bounds.extend(position);
             });
+
+            // Ajustar el mapa para que se vean ambos marcadores
+            map.fitBounds(bounds);
         }
 
         // Control de Música
