@@ -405,7 +405,7 @@
 
     <div class="container">
         
-        <h1>🎄✨LA CHOCOLATADA DE LA BOTICA SANTA MARIA Y FARMACIA MARIA DE LOS ANGELES✨🎄</h1>
+        <h1>🎄✨LA CHOCOLATADA DE LA BOTICA SANTA MARIA - FARMACIA MARIA DE LOS ANGELES✨🎄</h1>
 
         <!-- Video Principal -->
         <div class="video-container">
@@ -520,9 +520,7 @@
 
         // Configuración del Mapa
         function initMap() {
-            const locations = [
-                { title: "Botica Santa Maria", lat: -17.999611, lng: -70.237722 }
-            ];
+            const location = { lat: -17.999611, lng: -70.237722 }; // Botica Santa Maria
             
             // Estilo del mapa (Modo Oscuro/Futurista)
             const mapStyles = [
@@ -597,27 +595,18 @@
             ];
 
             const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 15,
-                center: { lat: -17.9996, lng: -70.2377 }, // Centro aproximado entre los dos puntos
+                zoom: 17, // Zoom fijo y adecuado
+                center: location,
                 styles: mapStyles,
                 disableDefaultUI: false,
             });
 
-            const bounds = new google.maps.LatLngBounds();
-
-            locations.forEach(loc => {
-                const position = { lat: loc.lat, lng: loc.lng };
-                new google.maps.Marker({
-                    position: position,
-                    map: map,
-                    title: loc.title,
-                    animation: google.maps.Animation.DROP
-                });
-                bounds.extend(position);
+            new google.maps.Marker({
+                position: location,
+                map: map,
+                title: "Botica Santa Maria",
+                animation: google.maps.Animation.BOUNCE
             });
-
-            // Ajustar el mapa para que se vean ambos marcadores
-            map.fitBounds(bounds);
         }
 
         // Control de Música
