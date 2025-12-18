@@ -405,7 +405,7 @@
 
     <div class="container">
         
-        <h1>🎄✨LA GRAN CHOCOLATADA CON PANETONCITO✨🎄</h1>
+        <h1>🎄✨LA CHOCOLATADA DE LA BOTICA SANTA MARIA Y FARMACIA MARIA DE LOS ANGELES✨🎄</h1>
 
         <!-- Video Principal -->
         <div class="video-container">
@@ -430,14 +430,6 @@
             </p>
             
             <div class="locations-container">
-                <div class="location-item">
-                    <p class="invitation-text" style="margin-bottom: 10px;">
-                        📍 <strong>Farmacia Maria de los Angeles</strong><br>
-                        <span style="font-size: 1rem;">Intersección entre Francisco Paula Vigil y Gustavo Pinto</span>
-                    </p>
-                    <button class="ref-btn" onclick="showReference('media/referencefarmacia.png')">📸 Ver Referencia</button>
-                </div>
-
                 <div class="location-item">
                     <p class="invitation-text" style="margin-bottom: 10px;">
                         📍 <strong>Botica Santa Maria</strong><br>
@@ -529,7 +521,6 @@
         // Configuración del Mapa
         function initMap() {
             const locations = [
-                { title: "Farmacia Maria de los Angeles", lat: -18.002860, lng: -70.243536 },
                 { title: "Botica Santa Maria", lat: -17.999611, lng: -70.237722 }
             ];
             
@@ -607,7 +598,7 @@
 
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 15,
-                center: { lat: -18.0012, lng: -70.2406 }, // Centro aproximado entre los dos puntos
+                center: { lat: -17.999611, lng: -70.237722 }, // Centro aproximado entre los dos puntos
                 styles: mapStyles,
                 disableDefaultUI: false,
             });
